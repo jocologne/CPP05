@@ -34,7 +34,7 @@ public:
 	};
 	//Sign
 	void signForm(AForm& form);
-	void executeForm(const AForm& form)
+	void executeForm(const AForm& form);
 };
 std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);
 

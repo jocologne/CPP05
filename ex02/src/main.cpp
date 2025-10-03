@@ -1,22 +1,63 @@
 #include "../includes/Bureaucrat.hpp"
-#include "../includes/Form.hpp"
+#include "../includes/AForm.hpp"
+#include "../includes/ShrubberyCreationForm.hpp"
 #include <iostream>
 
 int main() {
-	try {
-		Bureaucrat highGrade("A", 1);
-		Bureaucrat lowGrade("B", 150);
+    std::cout << "=== TESTING EX01 - FORMS ===" << std::endl;
+    std::cout << std::endl;
 
-		Form form1("Form 1", 50, 50);
-		Form form2("Form 2", 1, 1);
+    try {
+        std::cout << "--- Creating Bureaucrats ---" << std::endl;
+        Bureaucrat boss("Boss", 1);
+        Bureaucrat manager("Manager", 50);
+        Bureaucrat intern("Intern", 140);
+        Bureaucrat newbie("Newbie", 150);
 
-		highGrade.signForm(form1);
-		lowGrade.signForm(form2);
+        std::cout << boss << std::endl;
+        std::cout << manager << std::endl;
+        std::cout << intern << std::endl;
+        std::cout << newbie << std::endl;
+        std::cout << std::endl;
 
-		std::cout << form1 << std::endl;
-		std::cout << form2 << std::endl;
-	} catch (std::exception& e) {
-		std::cerr << e.what() << std::endl;
-	}
-	return 0;
+        std::cout << "--- Creating Shrubbery Form ---" << std::endl;
+        ShrubberyCreationForm gardenForm("Garden");
+        std::cout << gardenForm << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "--- TEST 1: Intern tries to sign form (should work) ---" << std::endl;
+        intern.signForm(gardenForm);
+        std::cout << gardenForm << std::endl;
+        std::cout << std::endl;
+
+        std::cout << "--- TEST 2: Intern tries to execute form (should FAIL - grade too low) ---" << std::endl;
+        intern.executeForm(gardenForm);
+        std::cout << std::endl;
+
+        std::cout << "--- TEST 3: Manager executes form (should work) ---" << std::endl;
+        manager.executeForm(gardenForm);
+        std::cout << std::endl;
+
+        std::cout << "--- TEST 4: Newbie tries to sign form (should FAIL - grade too low) ---" << std::endl;
+        ShrubberyCreationForm backyardForm("Backyard");
+        newbie.signForm(backyardForm);
+        std::cout << std::endl;
+
+        std::cout << "--- TEST 5: Boss signs and executes new form ---" << std::endl;
+        ShrubberyCreationForm parkForm("CentralPark");
+        boss.signForm(parkForm);
+        boss.executeForm(parkForm);
+        std::cout << std::endl;
+
+        std::cout << "--- TEST 6: Try to execute unsigned form ---" << std::endl;
+        ShrubberyCreationForm unsignedForm("Forest");
+        manager.executeForm(unsignedForm);
+        std::cout << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cout << "Unexpected exception: " << e.what() << std::endl;
+    }
+
+    std::cout << "=== TEST COMPLETE ===" << std::endl;
+    return 0;
 }
