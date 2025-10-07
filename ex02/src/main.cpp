@@ -2,10 +2,11 @@
 #include "AForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 #include <iostream>
 
 int main() {
-    std::cout << "=== TESTING EX02 - ROBOTOMY REQUEST FORM ===" << std::endl;
+    std::cout << "=== TESTING EX02 - ALL FORM TYPES ===" << std::endl;
     std::cout << std::endl;
 
     // Initialize random seed for robotomy
@@ -13,59 +14,79 @@ int main() {
 
     try {
         std::cout << "--- Creating Bureaucrats ---" << std::endl;
-        Bureaucrat boss("Boss", 1);
-        Bureaucrat doctor("Doctor", 40);
-        Bureaucrat intern("Intern", 70);
-        Bureaucrat newbie("Newbie", 150);
+        Bureaucrat president("President", 1);
+        Bureaucrat minister("Minister", 5);
+        Bureaucrat director("Director", 20);
+        Bureaucrat clerk("Clerk", 70);
+        Bureaucrat intern("Intern", 140);
 
-        std::cout << boss << std::endl;
-        std::cout << doctor << std::endl;
+        std::cout << president << std::endl;
+        std::cout << minister << std::endl;
+        std::cout << director << std::endl;
+        std::cout << clerk << std::endl;
         std::cout << intern << std::endl;
-        std::cout << newbie << std::endl;
         std::cout << std::endl;
 
-        std::cout << "--- Creating Robotomy Request Form ---" << std::endl;
-        RobotomyRequestForm robotomyForm("Bender");
-        std::cout << robotomyForm << std::endl;
+        std::cout << "=== SHRUBBERY CREATION FORM TESTS ===" << std::endl;
+        ShrubberyCreationForm shrubbery("Garden");
+        std::cout << shrubbery << std::endl;
+        std::cout << "--- Intern signs shrubbery form ---" << std::endl;
+        intern.signForm(shrubbery);
+        std::cout << "--- Clerk executes shrubbery form ---" << std::endl;
+        clerk.executeForm(shrubbery);
         std::cout << std::endl;
 
-        std::cout << "--- TEST 1: Intern tries to sign form (should work) ---" << std::endl;
-        intern.signForm(robotomyForm);
-        std::cout << robotomyForm << std::endl;
-        std::cout << std::endl;
-
-        std::cout << "--- TEST 2: Intern tries to execute form (should FAIL - grade too low) ---" << std::endl;
-        intern.executeForm(robotomyForm);
-        std::cout << std::endl;
-
-        std::cout << "--- TEST 3: Doctor executes form (should work - 50% chance) ---" << std::endl;
-        doctor.executeForm(robotomyForm);
-        std::cout << std::endl;
-
-        std::cout << "--- TEST 4: Newbie tries to sign form (should FAIL - grade too low) ---" << std::endl;
-        RobotomyRequestForm robotomyForm2("R2D2");
-        newbie.signForm(robotomyForm2);
-        std::cout << std::endl;
-
-        std::cout << "--- TEST 5: Boss signs and executes multiple times (see 50% chance) ---" << std::endl;
-        RobotomyRequestForm robotomyForm3("C3PO");
-        boss.signForm(robotomyForm3);
+        std::cout << "=== ROBOTOMY REQUEST FORM TESTS ===" << std::endl;
+        RobotomyRequestForm robotomy("Bender");
+        std::cout << robotomy << std::endl;
         
-        for (int i = 0; i < 3; i++) {
-            std::cout << "Attempt " << (i + 1) << ": ";
-            boss.executeForm(robotomyForm3);
-        }
+        std::cout << "--- Clerk signs robotomy form ---" << std::endl;
+        clerk.signForm(robotomy);
+        
+        std::cout << "--- Director executes robotomy form (50% chance) ---" << std::endl;
+        director.executeForm(robotomy);
         std::cout << std::endl;
 
-        std::cout << "--- TEST 6: Try to execute unsigned form ---" << std::endl;
-        RobotomyRequestForm unsignedForm("Terminator");
-        doctor.executeForm(unsignedForm);
+        std::cout << "=== PRESIDENTIAL PARDON FORM TESTS ===" << std::endl;
+        PresidentialPardonForm pardon("Ford Prefect");
+        std::cout << pardon << std::endl;
+        
+        std::cout << "--- Director tries to sign pardon form (should work) ---" << std::endl;
+        director.signForm(pardon);
+        
+        std::cout << "--- Director tries to execute pardon form (should FAIL) ---" << std::endl;
+        director.executeForm(pardon);
+        
+        std::cout << "--- Minister executes pardon form (should work) ---" << std::endl;
+        minister.executeForm(pardon);
         std::cout << std::endl;
+
+        std::cout << "=== PRESIDENT TESTS ALL FORMS ===" << std::endl;
+        std::cout << "--- President signs and executes all forms ---" << std::endl;
+        
+        ShrubberyCreationForm presidentialShrubbery("WhiteHouse");
+        RobotomyRequestForm presidentialRobotomy("Marvin");
+        PresidentialPardonForm presidentialPardon("Arthur Dent");
+        
+        president.signForm(presidentialShrubbery);
+        president.executeForm(presidentialShrubbery);
+        
+        president.signForm(presidentialRobotomy);
+        president.executeForm(presidentialRobotomy);
+        
+        president.signForm(presidentialPardon);
+        president.executeForm(presidentialPardon);
+        std::cout << std::endl;
+
+        std::cout << "=== ERROR CASE TESTS ===" << std::endl;
+        std::cout << "--- Intern tries presidential pardon (should fail at signing) ---" << std::endl;
+        PresidentialPardonForm impossiblePardon("Trillian");
+        intern.signForm(impossiblePardon);
 
     } catch (const std::exception& e) {
         std::cout << "Unexpected exception: " << e.what() << std::endl;
     }
 
-    std::cout << "=== TEST COMPLETE ===" << std::endl;
+    std::cout << "=== ALL TESTS COMPLETE ===" << std::endl;
     return 0;
 }

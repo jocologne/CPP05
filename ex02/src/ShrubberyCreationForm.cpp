@@ -28,7 +28,7 @@ void ShrubberyCreationForm::execute(const Bureaucrat& executor) const {
 	file << "  *\n"
          << " ***\n"
          << "*****\n"
-         << " | \n";
+         << "  | \n";
 	file.close();
 	std::cout << "Shrubbery created in file: " << filename << std::endl;
 }
